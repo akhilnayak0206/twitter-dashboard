@@ -1,34 +1,49 @@
-const express = require('express');
-const router = express.Router();
-var config = require('config');
+const express = require('express'),
+  rp = require('request-promise'),
+  config = require('config'),
+  Twit = require('twit');
 
 const consumer_key = config.get('consumerKey'),
   consumer_secret = config.get('consumerSecret');
 
-var Twit = require('twit');
+const router = express.Router();
 
-//@route   POST api/users
+//@route   GET api/users
 //@desc    Register user
 //@access  Public
 router.get('/', async (req, res) => {
-  var T = new Twit({
+  const T = new Twit({
     consumer_key,
     consumer_secret,
-    access_token: req.query.token,
-    access_token_secret: req.query.secretToken,
+    access_token: req.query.oauth_token,
+    access_token_secret: req.query.oauth_token_secret,
   });
-  T.post('statuses/update', { status: 'hello world!' }, function (
-    err,
-    data,
-    response
-  ) {
-    if (err) {
-      return res.send(err);
-    }
-    res.send(data);
-  });
-  // console.log(req.query);
-  // res.send('ok');
+
+  try {
+    // T.post(
+    //   'statuses/update',
+    //   { status: 'Technically the 5th tweet and 4th tweet for testing' },
+    //   function (err, data, response) {
+    //     if (err) {
+    //       return res.send(err);
+    //     }
+    //     return res.json({ data, response });
+    //   }
+    // );
+
+    const stream = T.stream('statuses/filter', {
+      track: ['bananas', 'oranges', 'strawberries'],
+    });
+
+    stream.on('tweet', function (tweet) {
+      //...
+      console.log(tweet);
+      res.send(tweet);
+      // res.json({ tweet });
+    });
+  } catch (err) {
+    return res.json({ err, message: 'Some error' });
+  }
 });
 
 module.exports = router;

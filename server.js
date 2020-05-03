@@ -1,7 +1,9 @@
-const express = require('express');
-var passport = require('passport');
-var session = require('express-session');
-var config = require('config');
+const express = require('express'),
+  passport = require('passport'),
+  TwitterStrategy = require('passport-twitter').Strategy,
+  session = require('express-session'),
+  cors = require('cors'),
+  config = require('config');
 
 const consumerKey = config.get('consumerKey'),
   consumerSecret = config.get('consumerSecret'),
@@ -10,16 +12,15 @@ const consumerKey = config.get('consumerKey'),
 
 const app = express();
 
+app.use(cors());
 app.use(session({ secret: secretWord }));
 
 //Init Middleware
 app.use(express.json({ extended: false }));
+
 //Below two lines are required to initialize passport
 app.use(passport.initialize());
 app.use(passport.session());
-
-var passport = require('passport'),
-  TwitterStrategy = require('passport-twitter').Strategy;
 
 passport.use(
   new TwitterStrategy(
@@ -29,16 +30,16 @@ passport.use(
       callbackURL: callbackURL,
     },
     function (token, tokenSecret, profile, done) {
-      console.log({ token, tokenSecret, profile });
-      //   console.log('went');
+      // console.log({ token, tokenSecret, profile });
     }
   )
 );
 
 //Define Routes
 app.get('/auth/twitter', passport.authenticate('twitter'));
+app.use('/access-token', require('./routes/api/accessToken'));
 
-app.use('/fetch-twitter', require('./routes/api/fetchTweets'));
+app.use('/fetch-tweets', require('./routes/api/fetchTweets'));
 
 const PORT = process.env.PORT || 5000;
 
