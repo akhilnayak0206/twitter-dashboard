@@ -1,0 +1,36 @@
+{
+  "name": "twitter-dashboard",
+  "version": "1.0.0",
+  "description": "Dashboard for twitter",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server",
+    "server": "nodemon server",
+    "client": "npm start --prefix client",
+    "dev": "concurrently \"npm run server\" \"npm run client\"",
+    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix client && npm run build --prefix client",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "twitter",
+    "nodejs",
+    "full-stack-project",
+    "dashboard"
+  ],
+  "author": "Akhil Nayak",
+  "license": "MIT",
+  "dependencies": {
+    "bluebird": "^3.7.2",
+    "config": "^3.3.1",
+    "express": "^4.17.1",
+    "express-session": "^1.17.1",
+    "node-twitter-api": "^1.8.0",
+    "passport": "^0.4.1",
+    "passport-twitter": "^1.0.4",
+    "twit": "^2.2.11"
+  },
+  "devDependencies": {
+    "concurrently": "^5.2.0",
+    "nodemon": "^2.0.3"
+  }
+}
