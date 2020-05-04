@@ -1,16 +1,19 @@
 import React, { Fragment, useEffect, useState } from 'react';
-import { Card, CardText, CardTitle, Button, CardImg } from 'reactstrap';
-import { Link } from 'react-router-dom';
+import { Card, CardText, Button, CardImg } from 'reactstrap';
 import '../styles/LoginPage.css';
 
-const LoginPage = ({ match }) => {
+const LoginPage = ({ history }) => {
   const [loginHTML, setLoginHTML] = useState(true);
 
   useEffect(() => {
     async function fetchData() {
+      console.log('Hello');
       let token = await getUrlParameter('oauth_token');
       let secretToken = await getUrlParameter('oauth_verifier');
-      if (token && secretToken) {
+      let denied = await getUrlParameter('denied');
+      if (denied) {
+        return alert('Please sign in to proceed');
+      } else if (token && secretToken) {
         return setLoginHTML(false);
       } else {
         return setLoginHTML(true);
@@ -33,6 +36,8 @@ const LoginPage = ({ match }) => {
   const onAcceptPermission = async () => {
     let denied = await getUrlParameter('denied');
     if (denied) {
+      setLoginHTML(true);
+      history.push(`/login`);
       return alert('Please sign in to proceed');
     }
     let token = await getUrlParameter('oauth_token');
@@ -44,12 +49,25 @@ const LoginPage = ({ match }) => {
       )
         .then((response) => response.json())
         .then((data) => {
-          console.log('Success:', data);
+          if (data.err) {
+            setLoginHTML(true);
+            history.push(`/login`);
+            return alert('Please Sign In');
+          } else {
+            sessionStorage.setItem('token', token);
+            sessionStorage.setItem('secretToken', secretToken);
+            console.log('Success:', data);
+            history.push(`/dashboard`);
+          }
         })
         .catch((error) => {
-          console.error('Error:', error);
+          setLoginHTML(true);
+          history.push(`/login`);
+          return alert('Please Sign In');
         });
     } else {
+      setLoginHTML(true);
+      history.push(`/login`);
       return alert('Please Sign In');
     }
   };
@@ -71,9 +89,9 @@ const LoginPage = ({ match }) => {
             <CardText className='textFamily margin5'>
               Log In or Register your twitter account
             </CardText>
-            <Link to='http://localhost:5000/auth/twitter'>
+            <a href='http://localhost:5000/auth/twitter'>
               <Button className='loginButton'>Log-In OR Sign-Up</Button>
-            </Link>
+            </a>
           </Fragment>
         ) : (
           <Fragment>
