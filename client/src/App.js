@@ -1,26 +1,8 @@
 import React, { useEffect } from 'react';
-import socketIOClient from 'socket.io-client';
 import './App.css';
 import Routes from './routing';
 
-const ENDPOINT = 'http://localhost:5000';
-
 function App() {
-  // useEffect(() => {
-  //   const socket = socketIOClient(ENDPOINT);
-  //   socket.emit('allTweet', {
-  //     token: '708548682510049281-hyhxY6b0RwJbmLJYPluFaxy5uYR5tpF',
-  //     secretToken: 'AwY4X6bHgItd2kF0M5Ghl00LgytIcqt6ZIJsfquwWlAQE',
-  //     search: 'coding',
-  //   });
-  //   let i = 0;
-  //   socket.on('allTweet', (data) => {
-  //     console.log(data, i);
-  //     i++;
-  //   });
-  //   socket.on('tweet', (data) => console.log(data));
-  // }, []);
-
   const getUrlParameter = (name) => {
     // eslint-disable-next-line no-useless-escape
     name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');

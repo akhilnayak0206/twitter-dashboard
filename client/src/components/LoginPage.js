@@ -7,7 +7,6 @@ const LoginPage = ({ history }) => {
 
   useEffect(() => {
     async function fetchData() {
-      console.log('Hello');
       let token = await getUrlParameter('oauth_token');
       let secretToken = await getUrlParameter('oauth_verifier');
       let denied = await getUrlParameter('denied');
@@ -42,7 +41,6 @@ const LoginPage = ({ history }) => {
     }
     let token = await getUrlParameter('oauth_token');
     let secretToken = await getUrlParameter('oauth_verifier');
-    console.log(token, secretToken);
     if (token && secretToken) {
       fetch(
         `http://localhost:5000/access-token?token=${token}&secretToken=${secretToken}`
@@ -56,7 +54,6 @@ const LoginPage = ({ history }) => {
           } else {
             sessionStorage.setItem('token', token);
             sessionStorage.setItem('secretToken', secretToken);
-            console.log('Success:', data);
             history.push(`/dashboard`);
           }
         })
