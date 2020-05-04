@@ -79,6 +79,12 @@ const LoginPage = ({ history }) => {
     return alert('You need to accept to proceed');
   };
 
+  const openAuth = () => {
+    fetch('http://localhost:5000/auth/twitter')
+      .then((res) => window.open(res.url, '_self'))
+      .catch((err) => console.log(err));
+  };
+
   return (
     <div className='main displayFlex justifyAlignCenter'>
       <Card body className='cardBody text-center'>
@@ -92,9 +98,10 @@ const LoginPage = ({ history }) => {
             <CardText className='textFamily margin5'>
               Log In or Register your twitter account
             </CardText>
-            <a href='http://localhost:5000/auth/twitter'>
-              <Button className='loginButton'>Log-In / Register</Button>
-            </a>
+
+            <Button className='loginButton' onClick={() => openAuth()}>
+              Log-In / Register
+            </Button>
           </Fragment>
         ) : (
           <Fragment>
