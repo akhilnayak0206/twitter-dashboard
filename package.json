@@ -24,10 +24,10 @@
     "cors": "^2.8.5",
     "express": "^4.17.1",
     "express-session": "^1.17.1",
-    "node-twitter-api": "^1.8.0",
     "passport": "^0.4.1",
     "passport-twitter": "^1.0.4",
     "request-promise": "^4.2.5",
+    "socket.io": "^2.3.0",
     "twit": "^2.2.11"
   },
   "devDependencies": {

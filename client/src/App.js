@@ -1,9 +1,24 @@
 import React, { useEffect } from 'react';
-import logo from './logo.svg';
+import socketIOClient from 'socket.io-client';
 import './App.css';
 
+const ENDPOINT = 'http://localhost:5000';
+
 function App() {
-  useEffect(() => {}, []);
+  // useEffect(() => {
+  //   const socket = socketIOClient(ENDPOINT);
+  //   socket.emit('allTweet', {
+  //     token: '708548682510049281-hyhxY6b0RwJbmLJYPluFaxy5uYR5tpF',
+  //     secretToken: 'AwY4X6bHgItd2kF0M5Ghl00LgytIcqt6ZIJsfquwWlAQE',
+  //     search: 'coding',
+  //   });
+  //   let i = 0;
+  //   socket.on('allTweet', (data) => {
+  //     console.log(data, i);
+  //     i++;
+  //   });
+  //   socket.on('tweet', (data) => console.log(data));
+  // }, []);
 
   const getUrlParameter = (name) => {
     // eslint-disable-next-line no-useless-escape
@@ -35,10 +50,54 @@ function App() {
       });
   };
 
+  const other = () => {
+    let data = {
+      token: '708548682510049281-hyhxY6b0RwJbmLJYPluFaxy5uYR5tpF',
+      secretToken: 'AwY4X6bHgItd2kF0M5Ghl00LgytIcqt6ZIJsfquwWlAQE',
+      status: 'This tweet is sent by a bot',
+      replyID: '1257224851779022848',
+    };
+    fetch('http://localhost:5000/fetch-tweets', {
+      method: 'POST', // or 'PUT'
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(data),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log('Success:', data);
+      })
+      .catch((error) => {
+        console.error('Error:', error);
+      });
+  };
+
+  const fetchConversation = () => {
+    let data = {
+      token: '708548682510049281-hyhxY6b0RwJbmLJYPluFaxy5uYR5tpF',
+      secretToken: 'AwY4X6bHgItd2kF0M5Ghl00LgytIcqt6ZIJsfquwWlAQE',
+      statusID: '1257224851779022848', // 1257205682769506300
+    };
+    fetch('http://localhost:5000/fetch-conversation', {
+      method: 'POST', // or 'PUT'
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(data),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log('Success COno:', data);
+      })
+      .catch((error) => {
+        console.error('Error:', error);
+      });
+  };
+
   return (
     <div className='App'>
       <header className='App-header'>
-        <img src={logo} className='App-logo' alt='logo' />
         <p>
           Edit <code>src/App.js</code> and save to reload.
         </p>
@@ -50,6 +109,8 @@ function App() {
           Learn
         </a>
         <button onClick={() => signIn()}>Hello</button>
+        <button onClick={() => other()}>itg</button>
+        <button onClick={() => fetchConversation()}>itg</button>
       </header>
     </div>
   );

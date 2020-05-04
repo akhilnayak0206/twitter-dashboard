@@ -3,6 +3,7 @@
         "postbuild",
         "queryparams",
         "stringifies",
+        "tweetbody",
         "webhooks"
     ]
 }
