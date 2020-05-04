@@ -4,8 +4,10 @@ import '../styles/LoginPage.css';
 
 const LoginPage = ({ history }) => {
   const [loginHTML, setLoginHTML] = useState(true);
+  const [clicked, setClicked] = useState(false);
 
   useEffect(() => {
+    sessionStorage.clear();
     async function fetchData() {
       let token = await getUrlParameter('oauth_token');
       let secretToken = await getUrlParameter('oauth_verifier');
@@ -33,36 +35,40 @@ const LoginPage = ({ history }) => {
   };
 
   const onAcceptPermission = async () => {
+    setClicked(true);
     let denied = await getUrlParameter('denied');
     if (denied) {
       setLoginHTML(true);
+      setClicked(false);
       history.push(`/login`);
       return alert('Please sign in to proceed');
     }
     let token = await getUrlParameter('oauth_token');
     let secretToken = await getUrlParameter('oauth_verifier');
     if (token && secretToken) {
-      fetch(
-        `http://localhost:5000/access-token?token=${token}&secretToken=${secretToken}`
-      )
-        .then((response) => response.json())
-        .then((data) => {
-          if (data.err) {
-            setLoginHTML(true);
-            history.push(`/login`);
-            return alert('Please Sign In');
-          } else {
-            sessionStorage.setItem('token', token);
-            sessionStorage.setItem('secretToken', secretToken);
-            history.push(`/dashboard`);
-          }
-        })
-        .catch((error) => {
+      try {
+        let response = await fetch(
+          `http://localhost:5000/access-token?token=${token}&secretToken=${secretToken}`
+        );
+        let data = await response.json();
+        if (data.err) {
           setLoginHTML(true);
+          setClicked(false);
           history.push(`/login`);
           return alert('Please Sign In');
-        });
+        } else {
+          sessionStorage.setItem('token', data.data.oauth_token);
+          sessionStorage.setItem('secretToken', data.data.oauth_token_secret);
+          history.push(`/dashboard`);
+        }
+      } catch (error) {
+        setClicked(false);
+        setLoginHTML(true);
+        history.push(`/login`);
+        return alert('Please Sign In');
+      }
     } else {
+      setClicked(false);
       setLoginHTML(true);
       history.push(`/login`);
       return alert('Please Sign In');

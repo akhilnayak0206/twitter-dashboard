@@ -40,13 +40,12 @@ router.post('/', async (req, res) => {
 
           if (data) {
             tweetData = {
-              id: data[0].id,
               id_str: data[0].id_str,
               full_text: data[0].full_text,
               userScreenName: '@' + data[0].user.screen_name,
               userImage: data[0].user.profile_image_url_https,
               userDescription: data[0].user.description,
-              name: data[0].user.name,
+              userName: data[0].user.name,
             };
             try {
               if (data[0].entities.media[0].media_url_https) {
@@ -82,6 +81,7 @@ router.post('/', async (req, res) => {
                       userScreenName: '@' + tweet.user.screen_name,
                       userImage: tweet.user.profile_image_url_https,
                       userDescription: tweet.user.description,
+                      userName: tweet.user.name,
                     };
                     try {
                       if (tweet.entities.media[0].media_url_https) {

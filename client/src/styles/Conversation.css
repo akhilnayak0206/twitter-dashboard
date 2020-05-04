@@ -1,0 +1,30 @@
+@import '~bootstrap/dist/css/bootstrap.css';
+@import '../App.css';
+
+.whiteCard {
+  margin: 5px;
+  padding: 5px;
+  background-color: white;
+  min-height: 90vh;
+  border-radius: 15px;
+}
+
+.height100 {
+  height: 100%;
+}
+
+.belowInputBox {
+  border-radius: 15px;
+  position: sticky;
+  bottom: 0;
+  width: 100%;
+  z-index: 5;
+  background-color: #dfdfdf;
+  box-shadow: 1px 2px 3px rgba(0, 0, 0, 0.4);
+  border: 0px;
+}
+
+.belowInputBox:hover {
+  background-color: #dfdfdf;
+  box-shadow: 1px 2px 3px rgba(0, 0, 0, 0.8);
+}

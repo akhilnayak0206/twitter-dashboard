@@ -1,16 +1,17 @@
-import React from 'react';
+import React, { useState } from 'react';
 import AllTweets from './AllTweets';
 import Conversation from './Conversation';
 import '../styles/Dashboard.css';
 
-const Dashboard = () => {
+const Dashboard = ({ history }) => {
+  const [selected, setSelected] = useState({});
   return (
     <div className='displayFlex'>
       <div className='allTweets'>
-        <AllTweets />
+        <AllTweets history={history} selected={setSelected} />
       </div>
       <div className='conversationTweet'>
-        <Conversation />
+        <Conversation history={history} selected={selected} />
       </div>
     </div>
   );

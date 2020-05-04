@@ -2,27 +2,33 @@
 @import '../App.css';
 
 .allTweets {
+  float: left;
+  display: block;
+  overflow-y: scroll;
+  max-height: 100vh;
   width: 30%;
-  background-color: black;
   padding: 10px;
+  overflow: auto;
 }
 
 .conversationTweet {
+  float: right;
+  display: block;
+  overflow-y: scroll;
+  overflow-x: hidden;
+  max-height: 100vh;
   width: 70%;
-  background-color: pink;
   padding: 10px;
 }
 
 @media only screen and (max-width: 480px) {
   .allTweets {
     width: 50%;
-    background-color: black;
     padding: 10px;
   }
 
   .conversationTweet {
     width: 50%;
-    background-color: pink;
     padding: 10px;
   }
 }
@@ -30,13 +36,11 @@
 @media only screen and (min-width: 480px) and (max-width: 975px) {
   .allTweets {
     width: 40%;
-    background-color: black;
     padding: 10px;
   }
 
   .conversationTweet {
     width: 60%;
-    background-color: pink;
     padding: 10px;
   }
 }

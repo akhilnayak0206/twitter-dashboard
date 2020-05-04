@@ -1,0 +1,36 @@
+@import '~bootstrap/dist/css/bootstrap.css';
+@import '../App.css';
+
+::-webkit-scrollbar {
+  width: 0px;
+}
+
+.inputBox {
+  position: sticky;
+  top: 5px;
+  z-index: 5;
+  background-color: #dfdfdf;
+  box-shadow: 1px 2px 3px rgba(0, 0, 0, 0.4);
+  border: 0px;
+}
+
+.inputBox:hover {
+  background-color: #dfdfdf;
+  box-shadow: 1px 2px 3px rgba(0, 0, 0, 0.8);
+}
+
+.searchButton {
+  border: 0px;
+  background-color: #dfdfdf;
+  background-color: #075ea5;
+}
+
+.searchButton:hover {
+  background-color: #dfdfdf;
+  background-color: #0d436e;
+  box-shadow: 1px 2px 3px rgba(0, 0, 0, 0.8);
+}
+
+.cursorPointer {
+  cursor: pointer;
+}

@@ -22,3 +22,19 @@
 .margin5 {
   margin: 5px;
 }
+
+.margin10 {
+  margin: 10px;
+}
+
+.marginRight5 {
+  margin-right: 5px;
+}
+
+.cardShadow {
+  box-shadow: 1px 2px 3px rgba(0, 0, 0, 0.4);
+}
+
+.cardShadow:hover {
+  box-shadow: 1px 2px 3px rgba(0, 0, 0, 0.8);
+}

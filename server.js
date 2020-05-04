@@ -52,6 +52,7 @@ app.use('/reply-tweet', require('./routes/api/ReplyTweet'));
 io.on('connection', function (socket) {
   console.log('A user connected');
   socket.on('allTweet', (msg) => {
+    console.log(msg);
     if (msg.token && msg.secretToken && msg.search) {
       const T = new Twit({
         consumer_key: consumerKey,
@@ -59,68 +60,82 @@ io.on('connection', function (socket) {
         access_token: msg.token,
         access_token_secret: msg.secretToken,
       });
-      T.get('search/tweets', { q: msg.search, count: 10 }, function (
-        err,
-        data,
-        response
-      ) {
-        var tweetArray = [];
-        if (err) {
-          return io.emit('allTweet', {
-            message: 'Error in T',
-            error: true,
-            err,
-          });
-        }
-        if (data) {
-          for (let index = 0; index < data.statuses.length; index++) {
-            const tweet = data.statuses[index];
-            var tweetbody = {
+      try {
+        T.get('search/tweets', { q: msg.search, count: 10 }, function (
+          err,
+          data,
+          response
+        ) {
+          var tweetArray = [];
+          if (err) {
+            return io.emit('allTweet', {
+              message: 'Error in T',
+              error: true,
+              err,
+            });
+          }
+          if (data) {
+            for (let index = 0; index < data.statuses.length; index++) {
+              const tweet = data.statuses[index];
+              var tweetbody = {
+                id: tweet.id,
+                id_str: tweet.id_str,
+                text: tweet.text,
+                userScreenName: '@' + tweet.user.screen_name,
+                userImage: tweet.user.profile_image_url_https,
+                userDescription: tweet.user.description,
+                userName: tweet.user.name,
+              };
+              try {
+                if (tweet.entities.media[0].media_url_https) {
+                  tweetbody['image'] = tweet.entities.media[0].media_url_https;
+                }
+              } catch (err) {}
+              tweetArray.push(tweetbody);
+            }
+            io.emit('allTweet', {
+              tweetArray,
+              error: false,
+            });
+          }
+        });
+
+        var stream = T.stream('statuses/filter', {
+          track: msg.search,
+          language: 'en',
+        });
+
+        stream.on('tweet', function (tweet) {
+          if (tweet.err) {
+            return;
+          } else {
+            let sendData = {
               id: tweet.id,
               id_str: tweet.id_str,
               text: tweet.text,
               userScreenName: '@' + tweet.user.screen_name,
               userImage: tweet.user.profile_image_url_https,
               userDescription: tweet.user.description,
+              userName: tweet.user.name,
             };
-            try {
-              if (tweet.entities.media[0].media_url_https) {
-                tweetbody['image'] = tweet.entities.media[0].media_url_https;
-              }
-            } catch (err) {}
-            tweetArray.push(tweetbody);
+            io.emit('tweet', sendData);
           }
-          io.emit('allTweet', {
-            tweetArray,
-            error: false,
+        });
+
+        stream.on('disconnect', function (disconnectMessage) {
+          return io.emit('allTweet', {
+            disconnectMessage,
+            message: 'Fetching live tweets limit exceeded. ',
+            error: true,
           });
-        }
-      });
-
-      var stream = T.stream('statuses/filter', {
-        track: msg.search,
-        language: 'en',
-      });
-
-      stream.on('tweet', function (tweet) {
-        let sendData = {
-          id: tweet.id,
-          id_str: tweet.id_str,
-          text: tweet.text,
-          userScreenName: '@' + tweet.user.screen_name,
-          userImage: tweet.user.profile_image_url_https,
-          userDescription: tweet.user.description,
-        };
-        io.emit('tweet', sendData);
-      });
-
-      stream.on('disconnect', function (disconnectMessage) {
+        });
+      } catch (err) {
         return io.emit('allTweet', {
-          disconnectMessage,
-          message: 'Fetching live tweets limit exceeded. ',
+          err,
+          message: 'Fetching live tweets error.',
           error: true,
         });
-      });
+      }
     } else {
       return io.emit('allTweet', {
         message: 'Please add valid parameters',
