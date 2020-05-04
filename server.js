@@ -17,7 +17,13 @@ const consumerKey = config.get('consumerKey'),
   secretWord = config.get('secretWord'),
   callbackURL = config.get('callbackURL');
 
-app.use(cors());
+// app.use(cors()); //use this for localhost
+app.use(
+  cors({
+    credentials: true,
+    origin: 'https://pacific-plateau-75702.herokuapp.com',
+  })
+);
 app.use(session({ secret: secretWord, resave: true, saveUninitialized: true }));
 
 //Init Middleware
