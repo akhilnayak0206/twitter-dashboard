@@ -1,5 +1,4 @@
 const express = require('express'),
-  rp = require('request-promise'),
   config = require('config'),
   Twit = require('twit');
 
@@ -8,36 +7,35 @@ const consumer_key = config.get('consumerKey'),
 
 const router = express.Router();
 
-//@route   POST api/users
-//@desc    Register user
-//@access  Public
+//@route   POST /fetch-conversation
+//@desc    fetch conversations and replies of a tweet
+//@access  Private
 router.post('/', async (req, res) => {
   const { token, secretToken, statusID } = req.body;
   if (token && secretToken && statusID) {
+    // Initialize with all necessary tokens to make request
     const T = new Twit({
       consumer_key,
       consumer_secret,
       access_token: token,
       access_token_secret: secretToken,
-      //   tweet_mode: 'extended',
     });
 
     let tweetData = {},
       replyData = [];
 
     try {
-      console.log('went');
+      // make a get request to get data of a tweet
       T.get(
         `/statuses/lookup`,
         {
           id: statusID,
-          tweet_mode: 'extended',
+          tweet_mode: 'extended', // to get full tweet text instead of truncated
         },
         function (err, data, response) {
           if (err) {
             return res.send(err);
           }
-
           if (data) {
             tweetData = {
               id_str: data[0].id_str,
@@ -48,23 +46,20 @@ router.post('/', async (req, res) => {
               userName: data[0].user.name,
             };
             try {
+              // add media attached with the tweet.
+              // Sometimes the media doesn't exist so try catch block used
               if (data[0].entities.media[0].media_url_https) {
                 tweetData['image'] = data[0].entities.media[0].media_url_https;
               }
             } catch (err) {}
-            // return res.json({
-            //   tweetData,
-            //   replyData,
-            //   response,
-            //   error: false,
-            // });
 
+            // get replies of a particular tweet
             T.get(
               'search/tweets',
               {
                 q: tweetData.userScreenName,
                 sinceId: tweetData.id_str,
-                count: 10,
+                count: 10, //count of replies to get
               },
               function (err, data, response) {
                 if (err) {
@@ -84,6 +79,8 @@ router.post('/', async (req, res) => {
                       userName: tweet.user.name,
                     };
                     try {
+                      // add media attached with the tweet.
+                      // Sometimes the media doesn't exist so try catch block used
                       if (tweet.entities.media[0].media_url_https) {
                         replyBody['image'] =
                           tweet.entities.media[0].media_url_https;
@@ -106,33 +103,6 @@ router.post('/', async (req, res) => {
     } catch (err) {
       return res.json({ err, error: true, message: 'Some error' });
     }
-    // var options = {
-    //   uri: 'https://api.twitter.com/1.1/statuses/show.json',
-    //   qs: {
-    //     consumer_key,
-    //     consumer_secret,
-    //     access_token_key: token,
-    //     access_token_secret: secretToken,
-    //     id: statusID
-    //   },
-    //   headers: {
-    //     'User-Agent': 'Request-Promise',
-    //   },
-    //   json: true, // Automatically parses the JSON string in the response
-    // };
-
-    // rp(options)
-    //   .then(function (repos) {
-    //     return res.json({ error: false, repos });
-    //   })
-    //   .catch(function (err) {
-    //     return res.json({
-    //       error: true,
-    //       message: 'Please add all credential',
-    //       err,
-    //     });
-    //     // API call failed...
-    //   });
   } else {
     return res.json({ error: true, message: 'Please add all credential' });
   }

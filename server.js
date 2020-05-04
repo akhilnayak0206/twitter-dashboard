@@ -9,19 +9,15 @@ const express = require('express'),
 const app = express(),
   server = require('http').Server(app);
 
-var io = require('socket.io')(server),
-  fs = require('fs');
+var io = require('socket.io')(server);
 
 const consumerKey = config.get('consumerKey'),
   consumerSecret = config.get('consumerSecret'),
   secretWord = config.get('secretWord'),
   callbackURL = config.get('callbackURL');
 
-// const socketFunctions = require('./routes/socketFunctions')
-var interval;
-
 app.use(cors());
-app.use(session({ secret: secretWord }));
+app.use(session({ secret: secretWord, resave: true, saveUninitialized: true }));
 
 //Init Middleware
 app.use(express.json({ extended: false }));
@@ -38,7 +34,7 @@ passport.use(
       callbackURL: callbackURL,
     },
     function (token, tokenSecret, profile, done) {
-      // console.log({ token, tokenSecret, profile });
+      // check whether you received the data
     }
   )
 );
@@ -49,11 +45,13 @@ app.use('/access-token', require('./routes/api/accessToken'));
 app.use('/fetch-conversation', require('./routes/api/fetchConversation'));
 app.use('/reply-tweet', require('./routes/api/ReplyTweet'));
 
+// socket.io connection
 io.on('connection', function (socket) {
-  console.log('A user connected');
+  // allTweets gets 10 tweet then listens to tweets
+  // tweet listens to live tweets
   socket.on('allTweet', (msg) => {
-    console.log(msg);
     if (msg.token && msg.secretToken && msg.search) {
+      // Initialize twit to make request to twitter API
       const T = new Twit({
         consumer_key: consumerKey,
         consumer_secret: consumerSecret,
@@ -61,6 +59,7 @@ io.on('connection', function (socket) {
         access_token_secret: msg.secretToken,
       });
       try {
+        // get tweets according to search query with a count
         T.get('search/tweets', { q: msg.search, count: 10 }, function (
           err,
           data,
@@ -87,12 +86,16 @@ io.on('connection', function (socket) {
                 userName: tweet.user.name,
               };
               try {
+                // add media attached with the tweet.
+                // Sometimes the media doesn't exist so try catch block used
                 if (tweet.entities.media[0].media_url_https) {
                   tweetbody['image'] = tweet.entities.media[0].media_url_https;
                 }
               } catch (err) {}
               tweetArray.push(tweetbody);
             }
+
+            // send tweetArray to client
             io.emit('allTweet', {
               tweetArray,
               error: false,
@@ -100,11 +103,13 @@ io.on('connection', function (socket) {
           }
         });
 
+        //listen to real-time tweets
         var stream = T.stream('statuses/filter', {
           track: msg.search,
           language: 'en',
         });
 
+        // tweet listens to live tweets
         stream.on('tweet', function (tweet) {
           if (tweet.err) {
             return;
