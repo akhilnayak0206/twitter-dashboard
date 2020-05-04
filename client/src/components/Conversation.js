@@ -17,6 +17,7 @@ function Conversation({ selected, history }) {
     }
     setToken(tokenData);
     setSecretToken(secretTokenData);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
@@ -27,10 +28,10 @@ function Conversation({ selected, history }) {
       let data = {
         token,
         secretToken,
-        statusID: selected.id_str, // 1257205682769506300
+        statusID: selected.id_str,
       };
       fetch('http://localhost:5000/fetch-conversation', {
-        method: 'POST', // or 'PUT'
+        method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
@@ -49,6 +50,7 @@ function Conversation({ selected, history }) {
           console.error('Error:', error);
         });
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selected]);
 
   const repliedSuccess = () => {
@@ -58,10 +60,10 @@ function Conversation({ selected, history }) {
     let data = {
       token,
       secretToken,
-      statusID: selected.id_str, // 1257205682769506300
+      statusID: selected.id_str,
     };
     fetch('http://localhost:5000/fetch-conversation', {
-      method: 'POST', // or 'PUT'
+      method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
@@ -88,11 +90,11 @@ function Conversation({ selected, history }) {
     let data = {
       token,
       secretToken,
-      replyID: selected.id_str, // 1257205682769506300
+      replyID: selected.id_str,
       status: replyTweet,
     };
     fetch('http://localhost:5000/reply-tweet', {
-      method: 'POST', // or 'PUT'
+      method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
@@ -100,7 +102,6 @@ function Conversation({ selected, history }) {
     })
       .then((response) => response.json())
       .then((data) => {
-        console.log(data);
         if (data.error) {
           alert('Error replying to tweet');
         } else {
@@ -124,6 +125,7 @@ function Conversation({ selected, history }) {
                   <img
                     src={`${selected.userImage}`}
                     className='float-left rounded-circle margin5'
+                    alt='profile'
                   />
                   <div className='message'>
                     <h5 className='card-title'>{selected.userName}</h5>
@@ -132,12 +134,12 @@ function Conversation({ selected, history }) {
                     </h6>
                     {userData.full_text && (
                       <p className='card-text'>{userData.full_text}</p>
-                    )}{' '}
+                    )}
                   </div>
                 </div>
               </div>
               {replyData && (
-                <div className='container' style={{ padding: '10px' }}>
+                <div className='container padding10'>
                   <h3>Replies:</h3>
                   {replyData.map((data) => (
                     <div className='card cardShadow margin5' key={data.id}>
@@ -145,6 +147,7 @@ function Conversation({ selected, history }) {
                         <img
                           src={`${data.userImage}`}
                           className='float-left rounded-circle margin5'
+                          alt='profile'
                         />
                         <div className='message'>
                           <h5 className='card-title'>{data.userName}</h5>
@@ -183,11 +186,3 @@ function Conversation({ selected, history }) {
 }
 
 export default Conversation;
-
-// id: 1257362417442578400
-// id_str: "1257362417442578432"
-// text: "@SachinKalbag There were discrepancies in data for districts like pune where actual cases were 2000+ but state bull… https://t.co/NRaHkzl7qI"
-// userDescription: "I'm not supposed to tell you this."
-// userImage: "https://pbs.twimg.com/profile_images/1244141994311421953/_Ktc_apU_normal.jpg"
-// userName: "Kuldeep Kawar"
-// userScreenName: "@kuldeep_kawar"

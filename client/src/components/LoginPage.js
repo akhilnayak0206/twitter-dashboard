@@ -93,7 +93,7 @@ const LoginPage = ({ history }) => {
               Log In or Register your twitter account
             </CardText>
             <a href='http://localhost:5000/auth/twitter'>
-              <Button className='loginButton'>Log-In OR Sign-Up</Button>
+              <Button className='loginButton'>Log-In / Register</Button>
             </a>
           </Fragment>
         ) : (
@@ -111,6 +111,7 @@ const LoginPage = ({ history }) => {
               <Button
                 className='acceptButton'
                 onClick={() => onAcceptPermission()}
+                disabled={clicked}
               >
                 Accept
               </Button>

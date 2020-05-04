@@ -11,6 +11,7 @@ const AllTweets = ({ history, selected }) => {
   const [secretToken, setSecretToken] = useState('');
   const [search, setSearch] = useState('');
   const [tweets, setTweets] = useState([]);
+
   useEffect(() => {
     let tokenData = sessionStorage.getItem('token');
     let secretTokenData = sessionStorage.getItem('secretToken');
@@ -20,6 +21,7 @@ const AllTweets = ({ history, selected }) => {
     setToken(tokenData);
     setSecretToken(secretTokenData);
     socket = socketIOClient(ENDPOINT);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const searchBtn = () => {
@@ -40,8 +42,8 @@ const AllTweets = ({ history, selected }) => {
         }
       });
 
-      //below code actually shows the live update the frequency of update
-      //   is around 5 tweets per second
+      //below code actually shows the live update.
+      //the frequency of update is around 5 tweets per second
 
       //   socket.on('tweet', (data) => {
       //     let allTweets = tweets;
@@ -80,6 +82,7 @@ const AllTweets = ({ history, selected }) => {
                   <img
                     src={`${data.userImage}`}
                     className='float-left rounded-circle marginRight5'
+                    alt='profile'
                   />
                   <div className='message'>
                     <h5 className='card-title'>{data.userName}e</h5>

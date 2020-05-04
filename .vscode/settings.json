@@ -6,6 +6,7 @@
         "postbuild",
         "queryparams",
         "resave",
+        "scrollbar",
         "stringifies",
         "tweetbody",
         "webhooks"
