@@ -7,23 +7,17 @@ const express = require('express'),
   Twit = require('twit');
 
 const app = express(),
-  server = require('http').Server(app);
+  server = app.listen(3000);
+// server = require('http').Server(app);
 
-var io = require('socket.io')(server),
-  fs = require('fs');
+var io = require('socket.io')(server);
 
 const consumerKey = config.get('consumerKey'),
   consumerSecret = config.get('consumerSecret'),
   secretWord = config.get('secretWord'),
   callbackURL = config.get('callbackURL');
 
-// app.use(cors()); //use this for localhost
-app.use(
-  cors({
-    credentials: true,
-    origin: 'https://pacific-plateau-75702.herokuapp.com',
-  })
-);
+app.use(cors());
 app.use(session({ secret: secretWord, resave: true, saveUninitialized: true }));
 
 //Init Middleware
