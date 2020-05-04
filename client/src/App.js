@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import socketIOClient from 'socket.io-client';
 import './App.css';
+import Routes from './routing';
 
 const ENDPOINT = 'http://localhost:5000';
 
@@ -96,23 +97,26 @@ function App() {
   };
 
   return (
-    <div className='App'>
-      <header className='App-header'>
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className='App-link'
-          href='http://localhost:5000/auth/twitter/'
-          rel='noopener noreferrer'
-        >
-          Learn
-        </a>
-        <button onClick={() => signIn()}>Hello</button>
-        <button onClick={() => other()}>itg</button>
-        <button onClick={() => fetchConversation()}>itg</button>
-      </header>
+    <div className='main'>
+      <Routes />
     </div>
+    // <div className='App'>
+    //   <header className='App-header'>
+    //     <p>
+    //       Edit <code>src/App.js</code> and save to reload.
+    //     </p>
+    //     <a
+    //       className='App-link'
+    //       href='http://localhost:5000/auth/twitter/'
+    //       rel='noopener noreferrer'
+    //     >
+    //       Learn
+    //     </a>
+    //     <button onClick={() => signIn()}>Hello</button>
+    //     <button onClick={() => other()}>itg</button>
+    //     <button onClick={() => fetchConversation()}>itg</button>
+    //   </header>
+    // </div>
   );
 }
 

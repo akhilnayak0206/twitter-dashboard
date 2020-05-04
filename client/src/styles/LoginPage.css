@@ -1,0 +1,57 @@
+@import '~bootstrap/dist/css/bootstrap.css';
+@import '../App.css';
+
+.cardBody {
+  flex-grow: unset;
+  border-radius: 15px;
+  border: 1px solid #075ea5;
+  box-shadow: 1px 2px 3px rgba(0, 0, 0, 0.4);
+  cursor: pointer;
+}
+
+.cardBody:hover {
+  box-shadow: 1px 2px 3px rgba(0, 0, 0, 0.8);
+}
+
+.cardImage {
+  width: 100px;
+  height: 100px;
+  align-self: center;
+}
+
+.loginButton {
+  background-color: #075ea5;
+  box-shadow: 1px 2px 3px rgba(0, 0, 0, 0.4);
+}
+
+.loginButton:hover {
+  background-color: #0d436e;
+  box-shadow: 1px 2px 3px rgba(0, 0, 0, 0.8);
+}
+
+.bothButton {
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.acceptButton {
+  background-color: #075ea5;
+  box-shadow: 1px 2px 3px rgba(0, 0, 0, 0.4);
+}
+
+.acceptButton:hover {
+  background-color: #0d436e;
+  box-shadow: 1px 2px 3px rgba(0, 0, 0, 0.8);
+}
+
+.declineButton {
+  border-color: #a7a7a7;
+  background-color: #a7a7a7;
+  box-shadow: 1px 2px 3px rgba(0, 0, 0, 0.4);
+}
+
+.declineButton:hover {
+  border-color: #888888;
+  background-color: #888888;
+  box-shadow: 1px 2px 3px rgba(0, 0, 0, 0.8);
+}
