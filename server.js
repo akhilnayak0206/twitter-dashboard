@@ -9,7 +9,8 @@ const express = require('express'),
 const app = express(),
   server = require('http').Server(app);
 
-var io = require('socket.io')(server);
+var io = require('socket.io')(server),
+  fs = require('fs');
 
 const consumerKey = config.get('consumerKey'),
   consumerSecret = config.get('consumerSecret'),
