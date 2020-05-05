@@ -6,9 +6,8 @@ const express = require('express'),
   config = require('config'),
   Twit = require('twit');
 
-const app = express();
-app.use(cors());
-const server = require('http').Server(app);
+const app = express(),
+  server = require('http').Server(app);
 
 var io = require('socket.io')(server);
 
@@ -17,6 +16,7 @@ const consumerKey = config.get('consumerKey'),
   secretWord = config.get('secretWord'),
   callbackURL = config.get('callbackURL');
 
+app.use(cors());
 app.use(session({ secret: secretWord, resave: true, saveUninitialized: true }));
 
 //Init Middleware
