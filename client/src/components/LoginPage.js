@@ -80,6 +80,7 @@ const LoginPage = ({ history }) => {
   };
 
   const openAuth = () => {
+    window.open('http://localhost:5000/auth/twitter', '_self');
     fetch('http://localhost:5000/auth/twitter')
       .then((res) => window.open(res.url, '_self'))
       .catch((err) => console.log(err));
