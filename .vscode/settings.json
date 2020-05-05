@@ -3,6 +3,7 @@
         "Bitstream",
         "Calisto",
         "Stqi",
+        "mkdir",
         "postbuild",
         "queryparams",
         "resave",
