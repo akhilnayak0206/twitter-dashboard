@@ -1,4 +1,4 @@
-# Twitter- Dashboard
+# Twitter-Dashboard
 
 This is a website for twitter users to see tweets, reply and see conversation of particular tweet.  
 This is a **MERN** project.  
