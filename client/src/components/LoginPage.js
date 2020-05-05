@@ -80,9 +80,7 @@ const LoginPage = ({ history }) => {
   };
 
   const openAuth = () => {
-    fetch(
-      'https://cors-anywhere.herokuapp.com/http://localhost:5000/auth/twitter'
-    )
+    fetch('http://localhost:5000/auth/twitter')
       .then((res) => window.open(res.url, '_self'))
       .catch((err) => console.log(err));
   };
