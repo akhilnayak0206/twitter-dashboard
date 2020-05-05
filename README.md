@@ -31,6 +31,29 @@ mkdir config
 npm run dev
 ```
 
+## Code Explaination
+
+### Backend APIs
+
+- `/auth/twitter` is used for authentication.
+- `/access-token` is used to get access token after accepting permission.
+- `/fetch-conversation` is used to fetch information about the selected tweet and all the replies of the tweet.
+- `/reply-tweet` is used to reply to the selected tweet
+- `allTweets` is a socket.io api to get the initial tweets.
+- `tweet` is realtime tweet api that is attached with allTweets but has to be listened separately to avoid too much population.
+
+### Front-End Screens
+
+- **Login Screen** consists of a card that asks for authentication.
+- Once the authentication is done the same page listens to the changes and shows different card which asks for permission.
+- If accepted the user gets redirected to **Dashboard**.
+- **Dashboard Screen** consist of two views **AllTweets** and **Conversation**.
+- **AllTweets** is on the left and **Conversation** is on the right.
+- Once they enter the search query they get the data accordingly.
+- **AllTweets** shows all the tweets and on selecting will show the detailed view on the right side.
+- **Conversation** shows the detailed view of the tweet and also shows the replies of that tweet.
+- If the user wants then they can reply to that tweet by typing in the bottom input box.
+
 ## Screen Shots
 
 - Login Page
