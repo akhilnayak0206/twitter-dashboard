@@ -16,7 +16,6 @@ const consumerKey = config.get('consumerKey'),
   secretWord = config.get('secretWord'),
   callbackURL = config.get('callbackURL');
 
-app.use(cors());
 app.use(session({ secret: secretWord, resave: true, saveUninitialized: true }));
 
 //Init Middleware
@@ -25,6 +24,7 @@ app.use(express.json({ extended: false }));
 //Below two lines are required to initialize passport
 app.use(passport.initialize());
 app.use(passport.session());
+app.use(cors());
 
 passport.use(
   new TwitterStrategy(
