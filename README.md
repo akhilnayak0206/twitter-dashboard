@@ -1,6 +1,6 @@
 # Twitter-Dashboard
 
-This is a website for twitter users to see tweets, reply and see conversation of particular tweet.  
+This is a website for twitter users to see tweets and reply to a particular tweet.  
 This is a **MERN** project.  
 The Back End is made using **NodeJS & ExpressJS** using **socket.io** as realtime-database.  
 The Front End is made using **ReactJS** for state management.
