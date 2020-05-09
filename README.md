@@ -37,7 +37,7 @@ npm run dev
 
 - `/auth/twitter` is used for authentication.
 - `/access-token` is used to get access token after accepting permission.
-- `/fetch-conversation` is used to fetch information about the selected tweet and all the replies of the tweet.
+- `/fetch-conversation` is used to fetch information about the selected tweet.
 - `/reply-tweet` is used to reply to the selected tweet
 - `allTweets` is a socket.io api to get the initial tweets.
 - `tweet` is realtime tweet api that is attached with allTweets but has to be listened separately to avoid too much population.
