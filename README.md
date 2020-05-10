@@ -51,7 +51,7 @@ npm run dev
 - **AllTweets** is on the left and **Conversation** is on the right.
 - Once they enter the search query they get the data accordingly.
 - **AllTweets** shows all the tweets and on selecting will show the detailed view on the right side.
-- **Conversation** shows the detailed view of the tweet and also shows the replies of that tweet.
+- **Conversation** shows the detailed view of the tweet.
 - If the user wants then they can reply to that tweet by typing in the bottom input box.
 
 ## Screen Shots
