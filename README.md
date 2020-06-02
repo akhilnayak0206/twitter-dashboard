@@ -3,7 +3,7 @@
 This is a website for twitter users to login and see tweets and reply to a particular tweet.  
 This is a **MERN** project.  
 The Back End is made using **NodeJS & ExpressJS** using **socket.io** as realtime-database.  
-The Front End is made using **ReactJS** for state management.
+The Front End is made using **ReactJS**.
 
 ## Quick Start
 
