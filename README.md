@@ -31,7 +31,7 @@ mkdir config
 npm run dev
 ```
 
-## Code Explaination
+## Code Explanation
 
 ### Backend APIs
 
